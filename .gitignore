@@ -61,3 +61,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Project_LNPQ/Library/
+Project_LNPQ/Temp/
+Project_LNPQ/Packages/
+
+Project_LNPQ/Logs/
+
+Project_LNPQ/ProjectSettings/
