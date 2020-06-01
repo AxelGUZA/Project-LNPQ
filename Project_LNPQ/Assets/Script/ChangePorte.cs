@@ -13,10 +13,16 @@ public class ChangePorte : MonoBehaviour
 
     public GameObject gameObjectCouloir;
 
+    public GameObject gameobjectbp_bouclier;
+    public GameObject gameobjectbp_combat;
+    public GameObject gameobjectbp_des;
+
 
     public GameObject gameObjectPorte;
     public GameObject gameObjectPorte2;
     public GameObject gameObjectPorte3;
+
+
 
  
  
@@ -90,16 +96,19 @@ public class ChangePorte : MonoBehaviour
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[4];
             nomDePorte = null;
+            activeAllBouton();
         }
         else if (nomDePorte == "porte_rouge (UnityEngine.Sprite)")
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[0];
             activePortecote();
+            activeAllBouton();
         }
         else if (nomDePorte == "porte_blue (UnityEngine.Sprite)")
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[1];
             activePortecote();
+            activeOnlyDesBouton();
 
         }
         
@@ -107,6 +116,7 @@ public class ChangePorte : MonoBehaviour
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[2];
             desactivePortecote();
+            desactiveAllBouton();
         }
       
     }
@@ -125,6 +135,30 @@ public class ChangePorte : MonoBehaviour
         gameObjectPorte2.SetActive(false);
         gameObjectPorte3.SetActive(false);
     }
+
+    private void desactiveAllBouton()
+    {
+        gameobjectbp_bouclier.SetActive(false);
+        gameobjectbp_combat.SetActive(false);
+        gameobjectbp_des.SetActive(false);
+    }
+
+    private void activeAllBouton()
+    {
+        gameobjectbp_bouclier.SetActive(true);
+        gameobjectbp_combat.SetActive(true);
+        gameobjectbp_des.SetActive(true);
+    }
+
+    private void activeOnlyDesBouton()
+    {
+        gameobjectbp_bouclier.SetActive(false);
+        gameobjectbp_combat.SetActive(false);
+        gameobjectbp_des.SetActive(true);
+    }
+
+
+
 
 
 
