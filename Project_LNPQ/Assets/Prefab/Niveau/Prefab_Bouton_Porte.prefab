@@ -248,7 +248,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fb810c5e92bf7924596ca2add8445432, type: 3}
   - {fileID: 21300000, guid: b8f703ebee1904e45a7d82c71bdd4249, type: 3}
   - {fileID: 21300000, guid: 0df92dcd67209bb4987da028c8df4478, type: 3}
-  textureCourante: 0
+  textureCourantePorte: 0
+  spriteCouloir: []
+  gameObjectCouloir: {fileID: 0}
+  gameobjectbp_bouclier: {fileID: 0}
+  gameobjectbp_combat: {fileID: 0}
+  gameobjectbp_des: {fileID: 0}
   gameObjectPorte: {fileID: 1707008895850190276}
   gameObjectPorte2: {fileID: 0}
   gameObjectPorte3: {fileID: 0}
+  gameobjectEgnimeCal: {fileID: 0}
+  gameobjectEgnimeGeo: {fileID: 0}
+  gameobjectEgnimeintru: {fileID: 0}
+  etage_text: {fileID: 0}

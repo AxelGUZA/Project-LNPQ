@@ -17,15 +17,17 @@ public class ChangePorte : MonoBehaviour
     public GameObject gameobjectbp_combat;
     public GameObject gameobjectbp_des;
 
-
+ 
     public GameObject gameObjectPorte;
     public GameObject gameObjectPorte2;
     public GameObject gameObjectPorte3;
 
+   
+    public GameObject gameobjectEgnimeCal;
+    public GameObject gameobjectEgnimeGeo;
+    public GameObject gameobjectEgnimeintru;
 
 
- 
- 
 
     public Text etage_text;
 
@@ -97,18 +99,21 @@ public class ChangePorte : MonoBehaviour
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[4];
             nomDePorte = null;
             activeAllBouton();
+            desactiveAllEgnime();
         }
         else if (nomDePorte == "porte_rouge (UnityEngine.Sprite)")
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[0];
             activePortecote();
             activeAllBouton();
+            desactiveAllEgnime();
         }
         else if (nomDePorte == "porte_blue (UnityEngine.Sprite)")
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[1];
             activePortecote();
             activeOnlyDesBouton();
+            randomEgnime();
 
         }
         
@@ -117,8 +122,26 @@ public class ChangePorte : MonoBehaviour
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[2];
             desactivePortecote();
             desactiveAllBouton();
+            desactiveAllEgnime();
         }
       
+    }
+
+    private void randomEgnime()
+    {
+
+
+        switch (Random.Range(1, 1))
+        {
+            case 1: activeCalEgnime();
+                break;
+            case 2:
+                //activeGeoEgnime();
+                break;
+            case 3:
+                //activeIntruEgnime();
+                break;
+        }
     }
 
 
@@ -158,6 +181,36 @@ public class ChangePorte : MonoBehaviour
     }
 
 
+    private void desactiveAllEgnime()
+    {
+        gameobjectEgnimeCal.SetActive(false);
+        gameobjectEgnimeGeo.SetActive(false);
+        gameobjectEgnimeintru.SetActive(false);
+    }
+
+    private void activeCalEgnime()
+    {
+        gameobjectEgnimeCal.SetActive(true);
+        gameobjectEgnimeGeo.SetActive(false);
+        gameobjectEgnimeintru.SetActive(false);
+
+    }
+
+    private void activeGeoEgnime()
+    {
+        gameobjectEgnimeGeo.SetActive(true);
+        gameobjectEgnimeCal.SetActive(false);
+        gameobjectEgnimeintru.SetActive(false);
+
+    }
+
+    private void activeIntruEgnime()
+    {
+        gameobjectEgnimeintru.SetActive(true);
+        gameobjectEgnimeCal.SetActive(false);
+        gameobjectEgnimeGeo.SetActive(false);
+
+    }
 
 
 
@@ -168,6 +221,7 @@ public class ChangePorte : MonoBehaviour
 
         PlayerPrefs.SetInt("etage", 1);
         randomiseLesPorte();
+        desactiveAllEgnime();
     }
 
         
