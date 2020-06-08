@@ -9,6 +9,10 @@ public class MouvementdesSprite : MonoBehaviour
 
     public Sprite[] serveuse;
     public GameObject serveuseB;
+
+    private float delay = 0.1f;
+
+    private bool verif = true;
     
 
     
@@ -17,34 +21,84 @@ public class MouvementdesSprite : MonoBehaviour
     void Start()
     {
         StartCoroutine(premierPasServeuse());
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        StartCoroutine(allerRetour());
+
     }
 
     
 
     IEnumerator premierPasServeuse()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(delay);
         this.serveuseB.GetComponent<Image>().sprite = serveuse[0];
-        Debug.Log("Premier Pas");
+        
         StartCoroutine(secondPasServeuse());
+        
     }
 
     IEnumerator secondPasServeuse()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(delay);
         this.serveuseB.GetComponent<Image>().sprite = serveuse[1];
-        Debug.Log("Deuxième Pas");
+      
         StartCoroutine(premierPasServeuse());
+        
     }
 
-    IEnumerator deplacementServeuseVersHaut()
+    IEnumerator allerRetour()
     {
-        yield return new WaitForSeconds(0.25f);
+         int i = 0;
+         if (serveuseB.transform.position.y >= 966)
+         {
+             while (i != 10)
+             {
+                 yield return new WaitForSeconds(delay);
+                 deplacementServeuseVersbas();
+                i++;
+            }
+            verif = false;
+
+            if (i == 10 || serveuseB.transform.position.y <= 300)
+            {
+                verif = true;
+            }
+
+        }
+         else if (verif)
+         {
+            
+                yield return new WaitForSeconds(delay);
+                deplacementServeuseVersHaut();
+              
+            
+
+        }
+
+        Debug.Log(serveuseB.transform.position.y);
     }
+
+
+
+    private void deplacementServeuseVersHaut()
+    {
+
+       // serveuseB.transform.Rotate(0, 0, 180f, Space.Self);
+        serveuseB.transform.position = transform.position + new Vector3(0, 10, 0);
+    }
+
+    private void deplacementServeuseVersbas()
+    {
+        
+      ///  serveuseB.transform.Rotate(0, 0, -180f, Space.Self);
+        serveuseB.transform.position = transform.position - new Vector3(0, 10, 0);
+           
+    }
+
+
 }
