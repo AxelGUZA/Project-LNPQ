@@ -74,7 +74,7 @@ public class EngimeCalMental : MonoBehaviour
     {
         float totalAVerif;
         float.TryParse(this.inputField.textComponent.text, out totalAVerif);
-        Debug.Log("total a verifer = "  + totalAVerif + " et le vrai total = " + this.total);
+       // Debug.Log("total a verifer = "  + totalAVerif + " et le vrai total = " + this.total);
         if(this.total == totalAVerif)
         {
             //Nous devron retrouver ici les bonus

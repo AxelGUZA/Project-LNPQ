@@ -27,17 +27,20 @@ public class ChangePorte : MonoBehaviour
     public GameObject gameobjectEgnimeGeo;
     public GameObject gameobjectEgnimeintru;
 
-
-
     public Text etage_text;
 
     private int ramdomNombre;
+
+    private bool verifPorteDroit;
+    private bool verifPorteDroite;
+    private bool verifPorteGauche;
 
 
 
     public void clickporte1()
     {
         this.nomDePorte = gameObjectPorte.GetComponent<Image>().sprite.ToString();
+        activeCouloirDroit();
         Debug.Log("nom de la porte cliquer 1: " + gameObjectPorte.GetComponent<Image>().sprite.ToString());
     }
 
@@ -47,6 +50,7 @@ public class ChangePorte : MonoBehaviour
     public void clickPorte2()
     {
         this.nomDePorte = gameObjectPorte2.GetComponent<Image>().sprite.ToString();
+        activeCouloirDroite();
         Debug.Log("nom de la porte cliquer 2 : " + gameObjectPorte2.GetComponent<Image>().sprite.ToString());
     }
 
@@ -55,6 +59,7 @@ public class ChangePorte : MonoBehaviour
     public void clickPorte3()
     {
         this.nomDePorte = gameObjectPorte3.GetComponent<Image>().sprite.ToString();
+        activeCouloirGauche();
         Debug.Log("nom de la porte cliquer 3 : " + gameObjectPorte3.GetComponent<Image>().sprite.ToString());
     }
 
@@ -92,40 +97,145 @@ public class ChangePorte : MonoBehaviour
         PlayerPrefs.SetInt("etage", etage);
         etage_text.text = etage + "";
 
-
-
-        if (nomDePorte == "porte_boss")
+        if (this.nomDePorte == "porte_boss")
         {
-            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[4];
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[5];
             nomDePorte = null;
             activeAllBouton();
             desactiveAllEgnime();
         }
-        else if (nomDePorte == "porte_rouge (UnityEngine.Sprite)")
+        else if (verifPorteDroit)
+        {
+           
+            choixDecouloirDroit();
+        }
+        else if (verifPorteDroite)
+        {
+            
+            choixDecouloirDroite();
+        }
+        else if (verifPorteGauche)
+        {
+            choixDecouloirGauche();
+        }
+            
+
+
+
+
+
+    }
+
+    private void choixDecouloirDroit()
+    {
+         if (this.nomDePorte == "porte_rouge (UnityEngine.Sprite)")
         {
             gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[0];
             activePortecote();
             activeAllBouton();
             desactiveAllEgnime();
         }
-        else if (nomDePorte == "porte_blue (UnityEngine.Sprite)")
+        else if (this.nomDePorte == "porte_blue (UnityEngine.Sprite)")
         {
-            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[1];
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[6];
             activePortecote();
             activeOnlyDesBouton();
             randomEgnime();
 
         }
-        
-        else if (nomDePorte == "porte_jaune (UnityEngine.Sprite)")
+
+        else if (this.nomDePorte == "porte_jaune (UnityEngine.Sprite)")
         {
-            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[2];
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[11];
             desactivePortecote();
             desactiveAllBouton();
             desactiveAllEgnime();
         }
-      
     }
+
+    private void choixDecouloirDroite()
+    {
+        int rand = Random.Range(1, 100);
+
+        if (rand < 50)
+        {
+            rand = 3;
+        }
+        else
+        {
+            rand = 4;
+        }
+    
+        Debug.Log("le random est de = " + rand);
+
+
+         if (this.nomDePorte == "porte_rouge (UnityEngine.Sprite)")
+        {
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[0+rand];
+            porteActivePourDroite();
+            activeAllBouton();
+            desactiveAllEgnime();
+        }
+        else if (this.nomDePorte == "porte_blue (UnityEngine.Sprite)")
+        {
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[6+rand];
+
+            porteActivePourDroite();
+            activeOnlyDesBouton();
+            randomEgnime();
+
+        }
+
+        else if (this.nomDePorte == "porte_jaune (UnityEngine.Sprite)")
+        {
+            rand = Random.Range(1, 2);
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[11+rand];
+            desactivePortecote();
+            desactiveAllBouton();
+            desactiveAllEgnime();
+        }
+    }
+
+    private void choixDecouloirGauche()
+    {
+        int rand = Random.Range(1, 100);
+
+        if (rand < 50)
+        {
+            rand = 1;
+        }
+        else
+        {
+            rand = 2;
+        }
+
+        if (this.nomDePorte == "porte_rouge (UnityEngine.Sprite)")
+        {
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[0 + rand];
+            porteActivePourGauche();
+            activeAllBouton();
+            desactiveAllEgnime();
+        }
+        else if (this.nomDePorte == "porte_blue (UnityEngine.Sprite)")
+        {
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[6 + rand];
+
+            porteActivePourGauche();
+            activeOnlyDesBouton();
+            randomEgnime();
+
+        }
+
+        else if (this.nomDePorte == "porte_jaune (UnityEngine.Sprite)")
+        {
+            gameObjectCouloir.GetComponent<Image>().sprite = spriteCouloir[11 + rand];
+            desactivePortecote();
+            desactiveAllBouton();
+            desactiveAllEgnime();
+        }
+    }
+
+
 
     private void randomEgnime()
     {
@@ -145,6 +255,31 @@ public class ChangePorte : MonoBehaviour
     }
 
 
+    //COULOIR
+
+    private void activeCouloirDroit()
+    {
+        verifPorteDroit = true;
+        verifPorteDroite = false;
+        verifPorteGauche = false;
+    }
+
+    private void activeCouloirDroite()
+    {
+        verifPorteDroit = false;
+        verifPorteDroite = true;
+        verifPorteGauche = false;
+    }
+
+    private void activeCouloirGauche()
+    {
+        verifPorteDroit = false;
+        verifPorteDroite = false;
+        verifPorteGauche = true;
+    }
+
+
+    //PORTE
 
 
     private void activePortecote()
@@ -158,6 +293,23 @@ public class ChangePorte : MonoBehaviour
         gameObjectPorte2.SetActive(false);
         gameObjectPorte3.SetActive(false);
     }
+
+    private void porteActivePourDroite()
+    {
+        gameObjectPorte.SetActive(true);
+        gameObjectPorte2.SetActive(false);
+        gameObjectPorte3.SetActive(true);
+    }
+
+    private void porteActivePourGauche()
+    {
+        gameObjectPorte.SetActive(true);
+        gameObjectPorte2.SetActive(true);
+        gameObjectPorte3.SetActive(false);
+    }
+
+
+    // BOUTON
 
     private void desactiveAllBouton()
     {
@@ -179,6 +331,8 @@ public class ChangePorte : MonoBehaviour
         gameobjectbp_combat.SetActive(false);
         gameobjectbp_des.SetActive(true);
     }
+
+    // Egnime
 
 
     private void desactiveAllEgnime()
