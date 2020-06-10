@@ -27,7 +27,10 @@ public class ChangePorte : MonoBehaviour
     public GameObject gameobjectEgnimeGeo;
     public GameObject gameobjectEgnimeintru;
 
+
+
     public Text etage_text;
+    public Text niveau_text;
 
     private int ramdomNombre;
 
@@ -68,9 +71,11 @@ public class ChangePorte : MonoBehaviour
 
     public void etageSuivant()
     {
-
+        int niveau = PlayerPrefs.GetInt("Niveau");
         int etage = PlayerPrefs.GetInt("etage");
         etage++;
+
+       
 
         if (nomDePorte == "porte_violet (UnityEngine.Sprite)")
         {
@@ -84,12 +89,17 @@ public class ChangePorte : MonoBehaviour
 
         if (etage == 10)
         {
+            niveau++;
+            PlayerPrefs.SetInt("Niveau", niveau);
+            niveau_text.text = niveau + "";
             nomDePorte = "porte_boss";
             desactivePortecote();
         }
-        else if (etage > 10)
+        else if (etage >= 10)
         {
+           
             etage = 1;
+           
             activePortecote();
         }
 
@@ -118,11 +128,6 @@ public class ChangePorte : MonoBehaviour
         {
             choixDecouloirGauche();
         }
-            
-
-
-
-
 
     }
 
@@ -239,9 +244,21 @@ public class ChangePorte : MonoBehaviour
 
     private void randomEgnime()
     {
+        int rand = Random.Range(1, 100);
+
+        if (rand <= 50)
+        {
+            rand = 1;
+        }
+        else
+        {
+            rand = 2;
+        }
+
+        Debug.Log("Random de egnime est = " + rand);
 
 
-        switch (Random.Range(1, 2))
+        switch (rand)
         {
             case 1: activeCalEgnime();
                 break;
@@ -374,6 +391,7 @@ public class ChangePorte : MonoBehaviour
     {
 
         PlayerPrefs.SetInt("etage", 1);
+        PlayerPrefs.SetInt("niveau", 1);
         randomiseLesPorte();
         desactiveAllEgnime();
     }

@@ -14,6 +14,10 @@ public class EngimeCalMental : MonoBehaviour
     public GameObject canvas;
     public InputField inputField;
 
+    public GameObject win;
+    public GameObject lose;
+    public GameObject bpDes;
+
     private int numero1;
     private int numero2;
     private float total = 0;
@@ -24,7 +28,9 @@ public class EngimeCalMental : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            lanceEngime();
+        win.SetActive(false);
+        lose.SetActive(false);
+        lanceEnigme();
     }
 
     // Update is called once per frame
@@ -34,8 +40,9 @@ public class EngimeCalMental : MonoBehaviour
         
     }
 
-    private void lanceEngime()
+    private void lanceEnigme()
     {
+        bpDes.SetActive(true);
         image2.GetComponent<Image>().sprite = biere[0];
         randomMultiplicateur(this.multiAffiche, this.multiplicateur);
     }
@@ -78,23 +85,35 @@ public class EngimeCalMental : MonoBehaviour
         if(this.total == totalAVerif)
         {
             //Nous devron retrouver ici les bonus
-            Debug.Log("exemple :+50 d'or");
-            finEngime(this.canvas);
+           // Debug.Log("exemple :+50 d'or");
+            win.SetActive(true);
+            Invoke("finEnigme",2);
         }
         else
         {
             //Nous devrons trouver ici les malus
-            Debug.Log("exemple :-50 d'or");
-            finEngime(this.canvas);
+           // Debug.Log("exemple :-50 d'or");
+            lose.SetActive(true);
+            Invoke("finEnigme", 2);
 
         }
     }
 
-    private void finEngime(GameObject canvas)
+    private void finEnigme()
     {
-        canvas.SetActive(false);
-        
-        lanceEngime();
+        this.canvas.SetActive(false);
+        win.SetActive(false);
+        lose.SetActive(false);
+        lanceEnigme();
+        enleveBoutonDes();
+    }
+
+    private void enleveBoutonDes()
+    {
+        if (!this.canvas.activeSelf)
+        {
+            bpDes.SetActive(false);
+        }
     }
 
     private void randomChiffre()

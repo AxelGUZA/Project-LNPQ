@@ -19,6 +19,7 @@ public class enigme_geometrique : MonoBehaviour
     public GameObject reussite;
     public GameObject echec;
     public GameObject groupeDeBouton;
+    public GameObject bpDes;
 
     public float delay;
     
@@ -28,12 +29,9 @@ public class enigme_geometrique : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("tableau d'Image");
-        randomValeur(tableauImageARandomiser);
-        //Debug.Log("tableau de bouton");
-        randomValeur(tableauDeBoutonARandomiser);
-        //Debug.Log("Tableau trier");
-        AttributionDesboutonsImages(tableauImageARandomiser, tableauDeBoutonARandomiser);
+        reussite.SetActive(false);
+        echec.SetActive(false);
+        initialisation();
     }
 
     // Update is called once per frame
@@ -42,6 +40,15 @@ public class enigme_geometrique : MonoBehaviour
 
     }
 
+    private void initialisation()
+    {
+        //Debug.Log("tableau d'Image");
+        randomValeur(tableauImageARandomiser);
+        //Debug.Log("tableau de bouton");
+        randomValeur(tableauDeBoutonARandomiser);
+        //Debug.Log("Tableau trier");
+        AttributionDesboutonsImages(tableauImageARandomiser, tableauDeBoutonARandomiser);
+    }
 
     private void randomValeur(int[] K)
     {
@@ -74,12 +81,12 @@ public class enigme_geometrique : MonoBehaviour
 
     private void AttributionDesboutonsImages(int[] tableauImageARandomiser,int[] tableauDeBoutonARandomiser)
     {
-        Debug.Log("#### tableauImageARandomiser[] = [" + tableauImageARandomiser[0] + tableauImageARandomiser[1] + tableauImageARandomiser[2]
-            + tableauImageARandomiser[3] + tableauImageARandomiser[4] + "] ####");
+       // Debug.Log("#### tableauImageARandomiser[] = [" + tableauImageARandomiser[0] + tableauImageARandomiser[1] + tableauImageARandomiser[2]
+       //     + tableauImageARandomiser[3] + tableauImageARandomiser[4] + "] ####");
 
-        Debug.Log("#### tableauDeBoutonARandomiser[] = [" + tableauDeBoutonARandomiser[0] + tableauDeBoutonARandomiser[1] + tableauDeBoutonARandomiser[2]
-           + tableauDeBoutonARandomiser[3] + tableauDeBoutonARandomiser[4] + tableauDeBoutonARandomiser[5]
-           + tableauDeBoutonARandomiser[6] + tableauDeBoutonARandomiser[7] + tableauDeBoutonARandomiser[8] + "] ####");
+       // Debug.Log("#### tableauDeBoutonARandomiser[] = [" + tableauDeBoutonARandomiser[0] + tableauDeBoutonARandomiser[1] + tableauDeBoutonARandomiser[2]
+       //   + tableauDeBoutonARandomiser[3] + tableauDeBoutonARandomiser[4] + tableauDeBoutonARandomiser[5]
+       //    + tableauDeBoutonARandomiser[6] + tableauDeBoutonARandomiser[7] + tableauDeBoutonARandomiser[8] + "] ####");
 
         int y=0;
         for(int i=0; i< tableauImageARandomiser.Length-1; i++)
@@ -88,13 +95,13 @@ public class enigme_geometrique : MonoBehaviour
             boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Image>().sprite = tableauImages[tableauImageARandomiser[i]];
             boutonReponse[tableauDeBoutonARandomiser[y]].onClick.AddListener(afficheDefaite);
             //on place dans le tableau de boutons les indices randomiser des boutons relier au sprite des images du tableau image eux-même compléter par les indices randomiser des images 
-            Debug.Log(" # boutonImages 1 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] +" indice de i =" + i + "]");
+           // Debug.Log(" # boutonImages 1 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] +" indice de i =" + i + "]");
             y = y + 1;
 
             boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Image>().sprite = tableauImages[tableauImageARandomiser[i]];
             boutonReponse[tableauDeBoutonARandomiser[y]].onClick.AddListener(afficheDefaite);
             // étant donné qu'il y a 2* plus de bouton que de sprite on effectue l'opération 2* en incrémentant l'indice
-            Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] + " indice de i =" + i + "]");
+            //Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] + " indice de i =" + i + "]");
             y = y + 1;
             
         }
@@ -104,48 +111,56 @@ public class enigme_geometrique : MonoBehaviour
        
         boutonReponse[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].onClick.AddListener(afficheVictoire);
         //normalement tabBouton[8] = tabImage[4] //cela correspond à la réponse de l'énigme
-      /*  Button boutonBonneReponse = boutonImages[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].GetComponent<Button>();
-        boutonBonneReponse.onClick.AddListener(afficheVictoire); */
+      
 
-       /* Button boutonMauvaiseReponse = boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Button>();
-        boutonMauvaiseReponse.onClick.AddListener(afficheDefaite); */
-
-        Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]+ "] , tableauImages  [" + tableauImageARandomiser[tableauImageARandomiser.Length - 1] + " ]");
+     //   Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]+ "] , tableauImages  [" + tableauImageARandomiser[tableauImageARandomiser.Length - 1] + " ]");
     }
 
     private void afficheVictoire()
     {
-
-        afficheVictoireAvecDelay();
+        groupeDeBouton.SetActive(false);
+        //Debug.Log("Reussite");
+        reussite.SetActive(true);
+        Invoke("afficheVictoireAvecDelay",1);
         //StartCoroutine = launcher de fonction
     }
 
     private void afficheDefaite()
     {
-
-        afficheDefaiteAvecDelay();
+        groupeDeBouton.SetActive(false);
+        //Debug.Log("ECHEC");
+        echec.SetActive(true);
+        Invoke("afficheDefaiteAvecDelay",1);
         //StartCoroutine = launcher de fonction
     }
     private void afficheVictoireAvecDelay() //IEnumerator = permet d'appliquer un delay  
     {
-        groupeDeBouton.SetActive(false);
-        Debug.Log("Reussite");
-        // reussite.SetActive(true);
        
-        enigme.SetActive(false);
+        reussite.SetActive(false);
+        enleveBoutonDes();
     }
 
     private void afficheDefaiteAvecDelay() //IEnumerator = permet d'appliquer un delay  
     {
-        groupeDeBouton.SetActive(false);
-        Debug.Log("ECHEC");
-       // echec.SetActive(true);
-     
-        enigme.SetActive(false);
+      
+        echec.SetActive(false);
+        enleveBoutonDes();
+
     }
 
-  
-    
+    private void enleveBoutonDes()
+    {
+        groupeDeBouton.SetActive(true);
+       
+        enigme.SetActive(false);
+        if (!this.enigme.activeSelf)
+        {
+            bpDes.SetActive(false);
+        }
+             initialisation();
+
+    }
+
 
 
 }
