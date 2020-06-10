@@ -12,6 +12,7 @@ public class enigme_geometrique : MonoBehaviour
     public Button boutonMauvaiseReponse; // trouver comment l'appliquer sur les autres boutons 
 
     public Sprite[] tableauImages;
+    public Button[] boutonReponse;
     public GameObject[] boutons; 
     public GameObject[] boutonImages;
     public GameObject enigme;
@@ -85,11 +86,13 @@ public class enigme_geometrique : MonoBehaviour
         {
            
             boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Image>().sprite = tableauImages[tableauImageARandomiser[i]];
+            boutonReponse[tableauDeBoutonARandomiser[y]].onClick.AddListener(afficheDefaite);
             //on place dans le tableau de boutons les indices randomiser des boutons relier au sprite des images du tableau image eux-même compléter par les indices randomiser des images 
             Debug.Log(" # boutonImages 1 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] +" indice de i =" + i + "]");
             y = y + 1;
 
             boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Image>().sprite = tableauImages[tableauImageARandomiser[i]];
+            boutonReponse[tableauDeBoutonARandomiser[y]].onClick.AddListener(afficheDefaite);
             // étant donné qu'il y a 2* plus de bouton que de sprite on effectue l'opération 2* en incrémentant l'indice
             Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[y] + "] , y = " + y + " tableauImages  [" + tableauImageARandomiser[i] + " indice de i =" + i + "]");
             y = y + 1;
@@ -98,12 +101,14 @@ public class enigme_geometrique : MonoBehaviour
         y = 0;
 
         boutonImages[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].GetComponent<Image>().sprite = tableauImages[tableauImageARandomiser[tableauImageARandomiser.Length - 1]];
+       
+        boutonReponse[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].onClick.AddListener(afficheVictoire);
         //normalement tabBouton[8] = tabImage[4] //cela correspond à la réponse de l'énigme
-        Button boutonBonneReponse = boutonImages[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].GetComponent<Button>();
-        boutonBonneReponse.onClick.AddListener(afficheVictoire); 
+      /*  Button boutonBonneReponse = boutonImages[tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]].GetComponent<Button>();
+        boutonBonneReponse.onClick.AddListener(afficheVictoire); */
 
-        Button boutonMauvaiseReponse = boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Button>();
-        boutonMauvaiseReponse.onClick.AddListener(afficheDefaite); 
+       /* Button boutonMauvaiseReponse = boutonImages[tableauDeBoutonARandomiser[y]].GetComponent<Button>();
+        boutonMauvaiseReponse.onClick.AddListener(afficheDefaite); */
 
         Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]+ "] , tableauImages  [" + tableauImageARandomiser[tableauImageARandomiser.Length - 1] + " ]");
     }
@@ -111,29 +116,31 @@ public class enigme_geometrique : MonoBehaviour
     private void afficheVictoire()
     {
 
-        StartCoroutine(afficheVictoireAvecDelay());
+        afficheVictoireAvecDelay();
         //StartCoroutine = launcher de fonction
     }
 
     private void afficheDefaite()
     {
 
-        StartCoroutine(afficheDefaiteAvecDelay());
+        afficheDefaiteAvecDelay();
         //StartCoroutine = launcher de fonction
     }
-    IEnumerator afficheVictoireAvecDelay() //IEnumerator = permet d'appliquer un delay  
+    private void afficheVictoireAvecDelay() //IEnumerator = permet d'appliquer un delay  
     {
         groupeDeBouton.SetActive(false);
-        reussite.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        Debug.Log("Reussite");
+        // reussite.SetActive(true);
+       
         enigme.SetActive(false);
     }
 
-    IEnumerator afficheDefaiteAvecDelay() //IEnumerator = permet d'appliquer un delay  
+    private void afficheDefaiteAvecDelay() //IEnumerator = permet d'appliquer un delay  
     {
         groupeDeBouton.SetActive(false);
-        echec.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        Debug.Log("ECHEC");
+       // echec.SetActive(true);
+     
         enigme.SetActive(false);
     }
 

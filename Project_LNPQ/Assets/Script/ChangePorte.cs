@@ -241,7 +241,7 @@ public class ChangePorte : MonoBehaviour
     {
 
 
-        switch (Random.Range(2, 2))
+        switch (Random.Range(1, 2))
         {
             case 1: activeCalEgnime();
                 break;
