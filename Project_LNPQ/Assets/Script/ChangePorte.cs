@@ -241,12 +241,12 @@ public class ChangePorte : MonoBehaviour
     {
 
 
-        switch (Random.Range(1, 1))
+        switch (Random.Range(2, 2))
         {
             case 1: activeCalEgnime();
                 break;
             case 2:
-                //activeGeoEgnime();
+                activeGeoEgnime();
                 break;
             case 3:
                 //activeIntruEgnime();
