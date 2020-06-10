@@ -18,8 +18,11 @@ public class SpritePersonnageManager : MonoBehaviour
 
     public GameObject charactere;
     public GameObject couloir;
-
-
+    public GameObject mort;
+    public GameObject win;
+    public GameObject bpSword;
+    public GameObject bpShield;
+    public GameObject bpDes;
 
     private float vie;
     private int degat;
@@ -34,6 +37,8 @@ public class SpritePersonnageManager : MonoBehaviour
     void Start()
     {
         initialisation();
+        mort.SetActive(false);
+        win.SetActive(false);
     }
 
     // Update is called once per frame
@@ -126,7 +131,7 @@ public class SpritePersonnageManager : MonoBehaviour
     public void setVie(float vie)
     {
         this.vie = vie;
-        Debug.Log("Vie set a = " + this.vie);
+        estMort(vie);
     }
 
     public float getVie()
@@ -137,38 +142,59 @@ public class SpritePersonnageManager : MonoBehaviour
     public void tuEstMort()
     {
         //Gestion de la mort
+        mort.SetActive(true);
         Debug.Log("Le hero est Mort");
     }
 
-    public void regagneDesPV(int pvUp)
-    {
-        this.vie += pvUp;
-        if (this.vie > VIEMAX)
-        {
-            this.vie = VIEMAX;
-        }
-    }
-
-    public void prendDesDegat(int degat, int rand,int critique)
+    public void prendDesDegat(int degat, float rand,int critique)
     {
         float vie = getVie();
         float degatAprendre;
-        degatAprendre = degat * ((rand / 100) * critique);
-        Debug.Log(" Alors :" +
-            " \n - degat = "+ degat +
-            " \n - rand = " + rand+
-             " \n - critique = " + critique+
-             "\n ("+degat + "* (("+ rand + " /100) * "+ critique + ")) = " + degatAprendre);
-        vie = ((vie + vie*(getResistance()/100)) - degatAprendre);
+        degatAprendre =degat* (1+(rand / 100) * critique);
+        vie = ((vie * 1+(getResistance()/10)) - degatAprendre);
         Debug.Log(" vie :" + vie);
-       setVie(vie);
-        if (vie <= 0)
-        {
-            tuEstMort();
-        }
+        setVie(vie);
         vie = 0;
     }
 
+    private void perteDeVie(float vie, int degat, float rand, int critique)
+    {
+        vie = vie - (degat * rand / critique);
+    }
+
+    private void perteDeVieCritique(float vie, int degat, float rand, int critique)
+    {
+        vie = vie - (degat * 1+(rand / critique));
+    }
+
+    private void gagneVie(float vie, int resistance, float rand, int diviseur)
+    {
+        vie = vie + ((resistance/10) * (rand / diviseur));
+        vieMaxVerif(vie);
+    }
+
+    private void gagneVieCritique(float vie, int resistance, float rand, int diviseur)
+    {
+        vie = vie + vie*(resistance * (rand / diviseur));
+       vieMaxVerif(vie);
+    }
+
+    public void vieMaxVerif(float vie)
+    {
+        if (vie > this.VIEMAX)
+        {
+             vie = this.VIEMAX;
+        }
+    }
+
+    public void estMort(float vie)
+    {
+        if (vie <= 0)
+        {
+            vie = 0;
+            tuEstMort();
+        }
+    }
 
 
 
@@ -178,8 +204,6 @@ public class SpritePersonnageManager : MonoBehaviour
         this.degat = degat ;
        
     }
-
-    
 
     public int getDegat()
     {
@@ -191,7 +215,7 @@ public class SpritePersonnageManager : MonoBehaviour
     {
         Debug.Log("La vie est de : " + getVie() + " avant la attaque");
 
-        int rand = Random.Range(1, 10);
+        int rand = Random.Range(1, 100);
 
         Debug.Log("le rand : " + rand );
         if (rand < 10)
@@ -243,15 +267,30 @@ public class SpritePersonnageManager : MonoBehaviour
     }
 
 
-
-    public void donnerDesDegat(float vieMonstre,int rand, int critique)
+    public void donnerDesDegat(float vieMonstre,float rand, int critique)
     {
         int degat = getDegat();
         vieMonstre = vieMonstre - degat+(degat * ((rand / 100) * critique));
         Debug.Log("Vie du monstre : " + vieMonstre);
+
+        if (vieMonstre <= 0)
+        {
+            Debug.Log("monstre mort ! " );
+            win.SetActive(true);
+            Invoke("finDePartiMonstre", 2);
+        }
         degat = 0;
     }
 
+
+    private void finDePartiMonstre()
+    {
+        win.SetActive(false);
+        bpSword.SetActive(false);
+        bpShield.SetActive(false);
+        bpDes.SetActive(false);
+
+}
 
 
     ////////// RESISTANCE  ////////// 
@@ -294,13 +333,13 @@ public class SpritePersonnageManager : MonoBehaviour
 
     }
 
-    public void echecCritDef(int rand)
+    public void echecCritDef(float rand)
     {
         this.vie = this.vie - (this.degat * 1 + rand / 5);
         Debug.Log("echecCritDef");
     }
 
-    public void echecDef(int rand)
+    public void echecDef(float rand)
     {
         this.vie = this.vie - (this.degat * rand / 50);
     }
@@ -310,9 +349,9 @@ public class SpritePersonnageManager : MonoBehaviour
         //Tu sort de la salle sans encombre
     }
 
-    public void reussiteCritDef(int rand)
+    public void reussiteCritDef(float rand)
     {
-        this.vie = this.vie + (this.resistance * rand / 50);
+       
     }
 
 
@@ -354,15 +393,19 @@ public class SpritePersonnageManager : MonoBehaviour
 
     }
 
-    public void echecCritDes(int rand)
+    public void echecCritDes(float rand)
     {
-        this.vie = this.vie - (this.degat * 1 + rand / 5);
+        perteDeVieCritique(this.vie, getDegat(), rand, 5);
     }
 
-    public void echecDes(int rand)
+   
+
+    public void echecDes(float rand)
     {
-        this.vie = this.vie - (this.degat * rand / 50);
+        perteDeVie(this.vie, getDegat(), rand, 1);
     }
+
+
 
     public void reussiteDes(int rand)
     {
