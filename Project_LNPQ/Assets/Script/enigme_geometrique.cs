@@ -8,23 +8,23 @@ using UnityEngine.Events;
 
 public class enigme_geometrique : MonoBehaviour
 {
-    public Button boutonBonneReponse; //trouver comment l'appliquer sur l'élément unique 
-    public Button boutonMauvaiseReponse; // trouver comment l'appliquer sur les autres boutons 
-
     public Sprite[] tableauImages;
     public Button[] boutonReponse;
     public GameObject[] boutons; 
     public GameObject[] boutonImages;
+    
+    public GameObject groupeDeBouton;
+    public GameObject bpDes;
     public GameObject enigme;
     public GameObject reussite;
     public GameObject echec;
-    public GameObject groupeDeBouton;
-    public GameObject bpDes;
 
     public float delay;
     
     private int[] tableauImageARandomiser = new int[5];
     private int[] tableauDeBoutonARandomiser = new int[9];
+
+//#######################################################################################################
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +40,7 @@ public class enigme_geometrique : MonoBehaviour
 
     }
 
-    private void initialisation()
-    {
-        //Debug.Log("tableau d'Image");
-        randomValeur(tableauImageARandomiser);
-        //Debug.Log("tableau de bouton");
-        randomValeur(tableauDeBoutonARandomiser);
-        //Debug.Log("Tableau trier");
-        AttributionDesboutonsImages(tableauImageARandomiser, tableauDeBoutonARandomiser);
-    }
-
+//#######################################################################################################
     private void randomValeur(int[] K)
     {
        
@@ -116,6 +107,17 @@ public class enigme_geometrique : MonoBehaviour
      //   Debug.Log(" ## boutonImages 2 [ " + tableauDeBoutonARandomiser[tableauDeBoutonARandomiser.Length - 1]+ "] , tableauImages  [" + tableauImageARandomiser[tableauImageARandomiser.Length - 1] + " ]");
     }
 
+
+//#######################################################################################################
+    private void initialisation()
+    {
+        //Debug.Log("tableau d'Image");
+        randomValeur(tableauImageARandomiser);
+        //Debug.Log("tableau de bouton");
+        randomValeur(tableauDeBoutonARandomiser);
+        //Debug.Log("Tableau trier");
+        AttributionDesboutonsImages(tableauImageARandomiser, tableauDeBoutonARandomiser);
+    }
     private void afficheVictoire()
     {
         groupeDeBouton.SetActive(false);
